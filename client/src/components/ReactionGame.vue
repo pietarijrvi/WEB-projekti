@@ -1,5 +1,5 @@
 <template>
-    <div id="reactionZone" v-on:click="startTimer">
+    <div id="reactionZone" v-on:click="clickGame">
         Reaction zone
         <div id="timer">
             <span id="millis">{{ milliseconds}}</span>
@@ -13,16 +13,27 @@
         data() {
             return {
                 clicked: false,
+                timer: false,
                 time: 0
             }
         },
         methods: {
             startTimer(){
-
+                const startTime = new Date();
+            },
+            stopTimer(startTime){
+                const endTime = new Date();
+                const timeDiff = endTime - startTime;
             },
             clickGame() {
                 alert('div clicked');
                 this.clicked = true;
+                if(this.timer === false){
+                    this.startTimer();
+                } else{
+                    this.stopTimer();
+                }
+
             },
         },
         computed:{

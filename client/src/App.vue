@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ReactionGame from "@/components/ReactionGame.vue";
+import ReactionGame from "./components/ReactionGame.vue";
 
 export default {
   name: 'app',
