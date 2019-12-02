@@ -5,7 +5,7 @@
             <button value="10" id="10s">10s</button>
             <button value="30" id="30s">30s</button>
         </div>
-        <button id="clickArea" disabled="{{ disableArea }}">{{ btnText }}</button>
+        <button id="clickArea" :disabled="disableArea == true" v-on:click="click">{{ btnText }}</button>
         <div id="results">{{ results }}</div>
         {{ resetBtn }}
     </div>
@@ -23,7 +23,8 @@
           running: false,
           disableArea: false,
           results: "",
-          resetBtn: null
+          resetBtn: null,
+          gameTimes: [5, 10, 30]
         }
       },
       methods: {
@@ -36,7 +37,16 @@
           if (this.count !== 0) {
             this.btnText = this.count
           }
-        },
+        },/*
+        pickTime(i) {
+          if (!this.running) {
+            for (let n = 0; n < this.gameTimes.length; n++) {
+              this.$refs[n].classList.remove("selected");
+            }
+            timeBtns[i].classList.add("selected")
+            seconds = gameTimes[i]
+          }
+        },*/
         end() {
           this.disableArea = true;
           this.results = Math.round(this.count/this.seconds * 100) / 100 + " clicks per second";
