@@ -1,18 +1,17 @@
 <template>
   <div id="app">
     <Header/>
-    <reaction-game/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import ReactionGame from "./components/ReactionGame.vue";
 import Header from "./components/Header.vue";
 
 export default {
   name: 'app',
   components: {
-    ReactionGame,Header
+    Header
   }
 }
 </script>
