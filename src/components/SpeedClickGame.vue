@@ -1,13 +1,11 @@
 <template>
-    <div id="app">
+    <div id="speed-app">
         <div id="timeDiv">
-            <button value="5" id="5s">5s</button>
-            <button value="10" id="10s">10s</button>
-            <button value="30" id="30s">30s</button>
+            <button v-for="time in gameTimes" v-bind:key="time.id" v-bind:class="{ selected: selectedTime === time }" v-on:click="setTime(time)">{{ time }}s</button>
         </div>
-        <button id="clickArea" :disabled="disableArea == true" v-on:click="click">{{ btnText }}</button>
+        <button id="clickArea" :disabled="disableArea" v-on:click="click">{{ btnText }}</button>
         <div id="results">{{ results }}</div>
-        {{ resetBtn }}
+        <button v-on:click="reset" class="speed-button" v-if="showReset">reset</button>
     </div>
 </template>
 
@@ -17,14 +15,15 @@
       data() {
         return {
           btnText: "",
-          defaultText: "click here :D",
+          defaultText: "clicking area",
           count: 0,
           seconds: 0,
           running: false,
           disableArea: false,
           results: "",
-          resetBtn: null,
-          gameTimes: [5, 10, 30]
+          showReset: false,
+          gameTimes: [5, 10, 30],
+          selectedTime: 0
         }
       },
       methods: {
@@ -37,16 +36,13 @@
           if (this.count !== 0) {
             this.btnText = this.count
           }
-        },/*
-        pickTime(i) {
+        },
+        setTime(time) {
           if (!this.running) {
-            for (let n = 0; n < this.gameTimes.length; n++) {
-              this.$refs[n].classList.remove("selected");
-            }
-            timeBtns[i].classList.add("selected")
-            seconds = gameTimes[i]
+            this.selectedTime = time;
+            this.seconds = time;
           }
-        },*/
+        },
         end() {
           this.disableArea = true;
           this.results = Math.round(this.count/this.seconds * 100) / 100 + " clicks per second";
@@ -56,19 +52,21 @@
           this.count = 0;
           this.running = false;
 
-          let resetBtn = document.createElement("button");
-          resetBtn.innerHTML = "reset";
-          resetBtn.addEventListener("click", function() {
-            this.btnText = this.defaultText;
-            this.disableArea = false;
-            this.results = "";
-            this.resetBtn = null
-          });
-          this.resetBtn = resetBtn
+          this.showReset = true;
+        },
+        reset() {
+          this.btnText = this.defaultText;
+          this.disableArea = false;
+          this.results = "";
+          this.showReset = false;
         },
         sendData() {
           // send count and seconds to database
         }
+      },
+      created() {
+        this.btnText = this.defaultText;
+        this.setTime(this.gameTimes[0]);
       }
     }
 </script>
@@ -76,17 +74,16 @@
 <style>
     body {
         font-family: Arial, Helvetica, sans-serif;
-        display: flex;
         flex-wrap: wrap;
         justify-content: center;
     }
 
-    #app {
+    #speed-app {
         text-align: center;
     }
 
-    button {
-        background: darkgrey;
+    .speed-button {
+        background: rgb(206, 38, 54);
         color: white;
         border: 0;
         border-radius: 1em;
@@ -98,8 +95,8 @@
         border: 2px lightgrey solid;
     }
 
-    button[id="clickArea"] {
-        background: lightsteelblue;
+    #clickArea {
+        background: rgb(43, 135, 209);
         font-size: 2em;
         border: 0;
         border-radius: 5px;
@@ -108,9 +105,10 @@
     }
 
     #timeDiv {
-        background: darkgrey;
+        width: 40rem;
+        background: #343a40;
         border-radius: 5px;
-        margin: 1em 0;
+        margin: 1em auto;
         display: flex;
         justify-content: space-evenly;
     }
@@ -120,17 +118,17 @@
         padding: .5rem;
         margin: .5rem;
         width: 100%;
-        background: #d3d3d3;
+        background: rgba(255, 255, 255, 0.5);
         border-radius: 5px;
         border: 0;
     }
 
     #timeDiv > button:hover {
-        background: #dadada;
+        background: rgba(255, 255, 255, 0.75);
     }
 
     #timeDiv > button.selected {
-        background: #d3e3d3;
+        background: rgb(75, 219, 106);
     }
 
     #results {
