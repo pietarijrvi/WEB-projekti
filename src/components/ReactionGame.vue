@@ -97,11 +97,9 @@
 </script>
 
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-    }
+    body{
 
+    }
     #reactionZone {
         width: 100%;
         height: 35em;

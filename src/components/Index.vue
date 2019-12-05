@@ -1,19 +1,38 @@
 <template>
-    <div>
+    <div id="cards">
         <b-card
-                title="Reaction game"
-                img-src="https://picsum.photos/600/300/?image=25"
+                img-height="200px"
+                bg-variant="info" text-variant="white"
+                id="reactionCard"
+                title="Reaction Game"
+                img-src="https://www.svgrepo.com/show/236404/lightnings-flash.svg"
                 img-alt="Image"
                 img-top
                 tag="article"
-                style="max-width: 20rem;"
-                class="mb-2"
+                class="mb-2 shadow p-3 rounded"
         >
             <b-card-text>
-                Some quick example text to build on the card title and make up the bulk of the card's content.
+                Test your reaction speed.
             </b-card-text>
 
-            <b-button href="#" variant="primary">Go somewhere</b-button>
+            <b-link to="/reaction"><b-button variant="primary">Play</b-button></b-link>
+        </b-card>
+        <b-card
+                img-height="200px"
+                bg-variant="info" text-variant="white"
+                id="speedCard"
+                title="Speed Click Game"
+                img-src="https://www.svgrepo.com/show/236423/sand-clock-timer.svg"
+                img-alt="Image"
+                img-top
+                tag="article"
+                class="mb-2 shadow p-3 rounded"
+        >
+            <b-card-text>
+                Choose from three time options and see how many clicks you can get.
+            </b-card-text>
+
+            <b-link to="/speedgame"><b-button variant="primary">Play</b-button></b-link>
         </b-card>
     </div>
 </template>
@@ -24,8 +43,23 @@
     }
 </script>
 
-<style scoped>
-    body{
-        background: red;
+<style>
+    #cards {
+        display: inline-flex;
+        margin-top: 5em;
+
+    }
+    img{
+        margin-top: 1em;
+    }
+    #reactionCard{
+        margin-right: 5em;
+        border-top: 3px solid yellow;
+        width: 100%;
+    }
+
+    #speedCard{
+        border-top: 3px solid darkorange;
+        width: 100%;
     }
 </style>

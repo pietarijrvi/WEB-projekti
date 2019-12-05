@@ -22,6 +22,7 @@
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
                         <b-dropdown-item href="#">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
+                    <b-link to="/login"><b-button>Log in</b-button></b-link>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
