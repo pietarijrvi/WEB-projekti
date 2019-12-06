@@ -2,14 +2,14 @@
     <div id="cards">
         <b-card
                 img-height="200px"
-                bg-variant="info" text-variant="white"
+                text-variant="black"
                 id="reactionCard"
                 title="Reaction Game"
                 img-src="https://www.svgrepo.com/show/236404/lightnings-flash.svg"
                 img-alt="Image"
                 img-top
                 tag="article"
-                class="mb-2 shadow p-3 rounded"
+                class="mb-2 shadow p-3"
         >
             <b-card-text>
                 Test your reaction speed.
@@ -19,14 +19,14 @@
         </b-card>
         <b-card
                 img-height="200px"
-                bg-variant="info" text-variant="white"
+                text-variant="black"
                 id="speedCard"
                 title="Speed Click Game"
                 img-src="https://www.svgrepo.com/show/236423/sand-clock-timer.svg"
                 img-alt="Image"
                 img-top
                 tag="article"
-                class="mb-2 shadow p-3 rounded"
+                class="mb-2 shadow p-3"
         >
             <b-card-text>
                 Choose from three time options and see how many clicks you can get.
@@ -47,7 +47,6 @@
     #cards {
         display: inline-flex;
         margin-top: 5em;
-
     }
     img{
         margin-top: 1em;

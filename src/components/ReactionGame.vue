@@ -98,7 +98,7 @@
 
 <style>
     body{
-
+        background: whitesmoke;
     }
     #reactionZone {
         width: 100%;
