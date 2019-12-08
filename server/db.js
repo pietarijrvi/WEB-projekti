@@ -1,11 +1,13 @@
 var mysql = require('mysql');
 var con = mysql.createConnection({
+
     /*
-    host: "localhost",
+    host: "mysql.metropolia.fi",
+    port: "3306",
     user: "jetrosa",
     password: "peterGiraffe21",
     database: "jetrosa"
-     */
+    */
 
     host: "localhost",
     user: "jetrosa",
