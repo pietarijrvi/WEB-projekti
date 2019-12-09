@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!['/login'].includes(this.$route.path)">
         <b-navbar toggleable="lg" type="light" variant="light">
 
             <b-navbar-brand to="/">Project</b-navbar-brand>
@@ -19,10 +19,9 @@
                         <template v-slot:button-content>
                             <em>User</em>
                         </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
+                        <b-dropdown-item to="/profile">Profile</b-dropdown-item>
                         <b-dropdown-item href="#">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
-                    <b-link to="/login"><b-button variant="primary" v-b-modal.modal-1>Sign in</b-button></b-link>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>

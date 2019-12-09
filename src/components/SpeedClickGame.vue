@@ -91,8 +91,8 @@
         height: 2em;
     }
 
-    button:hover {
-        border: 2px lightgrey solid;
+    .speed-button:hover {
+        background: rgba(206, 38, 54, .8);
     }
 
     #clickArea {
@@ -102,6 +102,10 @@
         border-radius: 5px;
         width: 40rem;
         height: 20rem;
+    }
+
+    #clickArea:disabled {
+        color: white;
     }
 
     #timeDiv {
