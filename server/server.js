@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use('/api', require('./routes/api'));
 
 app.get('/', function (req, res) {
+    console.log("Hello World");
     res.send('Hello World');
     //res.sendFile(path.join(__dirname + '/databaseList.html'));
 });

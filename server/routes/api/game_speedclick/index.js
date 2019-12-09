@@ -83,7 +83,6 @@ router.get('/scores/top/monthly', function (req, res) {
 router.get('/scores/user', function (req, res) {
 
     const q = url.parse(req.url, true).query;
-    const time=q.time;
     const userID=q.userID;
     const limit=5;
 
@@ -91,9 +90,8 @@ router.get('/scores/user', function (req, res) {
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
         + " and user.user_id = ?"
-        + " and game2.time = ?"
         + " ORDER BY game2.clicks"
-        + " LIMIT ?", [userID, time, limit]);
+        + " LIMIT ?", [userID, limit]);
 
     con.get().query(sql, function (err, result) {
         if (err) {
