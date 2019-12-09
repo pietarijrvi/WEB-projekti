@@ -9,9 +9,9 @@ app.use(
         extended: true
     })
 );
-app.use(cors);
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use('/api', require('./routes/api'));
 

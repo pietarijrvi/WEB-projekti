@@ -27,26 +27,22 @@
         created() {
             //calls info from the database
             this.username = "guest";
-            var json;
-            let xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                //this.status = xmlhttp.status;
-                //this.state = xmlhttp.readyState;
-                alert(xmlhttp.readyState + " " + xmlhttp.status);
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    json = JSON.parse(xmlhttp.responseText);
-                    if (json) {
-                        json.forEach( function(item) {
-                            this.speedScores.add(item)
-                        });
-                    }
-                }
-            };
-            //api/game_speedclick/scores/user?userID=1
-            xmlhttp.open("GET", "http://localhost:8081/", true);
-            xmlhttp.send();
+            this.getScores();
+        },
+        methods: {
+          async getScores() {
+            try {
+              const response = await fetch('http://localhost:8081/api/game_speedclick/scores/user?userID=1');
+              const data = await response.json();
+              this.status = data
+            } catch (e) {
+              throw e;
+            }
+          }
         }
     };
+
+
 </script>
 
 <style scoped>
