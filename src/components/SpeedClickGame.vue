@@ -91,6 +91,10 @@
         height: 2em;
     }
 
+    .speed-button:hover {
+        background: rgba(206, 38, 54, .8);
+    }
+
     #clickArea {
         background: rgb(43, 135, 209);
         font-size: 2em;
@@ -98,6 +102,10 @@
         border-radius: 5px;
         width: 40rem;
         height: 20rem;
+    }
+
+    #clickArea:disabled {
+        color: white;
     }
 
     #timeDiv {
