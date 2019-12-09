@@ -8,6 +8,7 @@ import VueRouter from 'vue-router'
 import ReactionGame from "./components/ReactionGame";
 import SpeedClickGame from "./components/SpeedClickGame";
 import Login from "./components/Login"
+import ProfilePage from "./components/ProfilePage";
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
@@ -16,7 +17,8 @@ const routes = [
     {path: '/', component: Index},
     {path: '/reaction', component: ReactionGame},
     {path: '/speedgame', component: SpeedClickGame},
-    {path: '/login', component: Login}
+    {path: '/login', component: Login},
+    {path: '/profile',component: ProfilePage}
 ];
 
 const router = new VueRouter({

@@ -91,10 +91,6 @@
         height: 2em;
     }
 
-    button:hover {
-        border: 2px lightgrey solid;
-    }
-
     #clickArea {
         background: rgb(43, 135, 209);
         font-size: 2em;
