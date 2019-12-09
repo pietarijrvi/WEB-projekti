@@ -1,13 +1,8 @@
 <template>
     <div id="profilePage">
-        <div id="profile">{{ username }}</div>{{state}} {{status}}
+        <div id="profile">{{ username }}</div>
         <div id="scores">
-            <ul id="speedScoreList">
-                <li v-for="score in speedScores" v-bind:key="score.id">score</li>
-            </ul>
-            <ul id="reactionScoreList">
-                <li v-for="score in reactionScores" v-bind:key="score.id">score</li>
-            </ul>
+            <b-table striped hover :items="speedScores" :fields="fields"></b-table>
         </div>
     </div>
 </template>
@@ -20,21 +15,32 @@
                 username: "",
                 speedScores: [],
                 reactionScores: [],
-                state: 0,
-                status: 0
+                fields: ['time', 'clicks', 'clicksPerSecond', 'date']
             }
         },
         created() {
             //calls info from the database
             this.username = "guest";
-            this.getScores();
+            const t = this;
+            this.getScores().then( function(result) {
+
+                result.forEach( function(item) {
+
+                  item.clicksPerSecond = Math.round(item.clicks / item.time * 100) / 100;
+
+                  let date = new Date(item.datetime);
+                  item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                });
+
+                t.speedScores = result;
+                t.username = result[0].username;
+            });
         },
         methods: {
           async getScores() {
             try {
               const response = await fetch('http://localhost:8081/api/game_speedclick/scores/user?userID=1');
-              const data = await response.json();
-              this.status = data
+              return await response.json();
             } catch (e) {
               throw e;
             }
