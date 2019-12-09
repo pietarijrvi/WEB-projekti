@@ -72,7 +72,7 @@ router.get('/scores/top/monthly', function (req, res) {
 
 
 router.get('/scores/user', function (req, res) {
-
+    console.log("game1 user scores");
     const q = url.parse(req.url, true).query;
     const userID=q.userID;
     const limit=5;

@@ -17,7 +17,7 @@
         name: 'ProfilePage',
         data() {
             return {
-                username: "",
+                username: "user",
                 speedScores: [],
                 reactionScores: []
             }
@@ -27,6 +27,7 @@
             var json;
             let xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
+                //console.log(xmlhttp.readyState + " " + xmlhttp.status);
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     json = JSON.parse(xmlhttp.responseText);
                     if (json) {
@@ -36,7 +37,7 @@
                     }
                 }
             };
-            xmlhttp.open("GET", "http://localhost:8081/gibmethings", true);
+            xmlhttp.open("GET", "http://localhost:8081/api/game_reaction/scores/user?userID=1", true);
             xmlhttp.send()
         }
     };
