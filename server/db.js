@@ -4,7 +4,7 @@ var con = mysql.createConnection({
     /*
     host: "mysql.metropolia.fi",
     port: "3306",
-    user: "jetrosa",
+    user: "jetrosa@users.metropolia.fi",
     password: "peterGiraffe21",
     database: "jetrosa"
     */
