@@ -14,7 +14,7 @@ router.get('/scores/top/alltime', function (req, res) {
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
         + " and game2.time = ?"
-        + " ORDER BY game2.clicks"
+        + " ORDER BY game2.clicks DESC"
         + " LIMIT ?", [time, limit]);
 
     con.get().query(sql, function (err, result) {
@@ -29,18 +29,21 @@ router.get('/scores/top/alltime', function (req, res) {
 
 router.get('/scores/top/daily', function (req, res) {
 
-    const q = url.parse(req.url, true).query;
-    const time=q.time;
     const limit=10;
     const d = new Date();
-    const day = d.getDay();
+    let day = d.getDate();
+    if(day<10)
+    {
+        day='0'+day;
+    }
+    console.log(day);
 
     const sql = SqlString.format("SELECT game2.time, game2.clicks, game2.datetime, user.username"
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
-        + " and DAY('game2.datetime') [?]"
+        + " and DATE(game2.datetime) = = CURDATE()"
         + " and game2.time = ?"
-        + " ORDER BY game2.clicks"
+        + " ORDER BY game2.clicks DESC"
         + " LIMIT ?", [day, time, limit]);
 
     con.get().query(sql, function (err, result) {
@@ -64,9 +67,9 @@ router.get('/scores/top/monthly', function (req, res) {
     const sql = SqlString.format("SELECT game2.time, game2.clicks, game2.datetime, user.username"
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
-        + " and MONTH('game2.datetime') [?]"
+        + " and MONTH(game2.datetime) = ?"
         + " and game2.time = ?"
-        + " ORDER BY game2.clicks"
+        + " ORDER BY game2.clicks DESC"
         + " LIMIT ?", [month, time, limit]);
 
     con.get().query(sql, function (err, result) {
@@ -90,7 +93,7 @@ router.get('/scores/user', function (req, res) {
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
         + " and user.user_id = ?"
-        + " ORDER BY game2.clicks"
+        + " ORDER BY game2.clicks DESC"
         + " LIMIT ?", [userID, limit]);
 
     con.get().query(sql, function (err, result) {

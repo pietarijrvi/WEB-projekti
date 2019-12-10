@@ -1,4 +1,4 @@
-<template>
+npm<template>
     <div id="profilePage">
         <div id="profile">{{ username }}</div>
         <div id="scores">

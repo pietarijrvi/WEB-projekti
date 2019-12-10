@@ -11,7 +11,7 @@ router.get('/scores/top/alltime', function (req, res) {
     const sql = SqlString.format("SELECT game1.score, game1.datetime, user.username"
         + " FROM game1, user"
         + " WHERE game1.user_id = user.user_id"
-        + " ORDER BY game1.score"
+        + " ORDER BY game1.score DESC"
         + " LIMIT ?", [limit]);
 
     con.get().query(sql, function (err, result) {
@@ -25,17 +25,22 @@ router.get('/scores/top/alltime', function (req, res) {
 });
 
 router.get('/scores/top/daily', function (req, res) {
-
+    res.header("Access-Control-Allow-Origin", "*");
     const limit=10;
     const d = new Date();
-    const day = d.getDay();
+    let day = d.getDate();
+    if(day<10)
+    {
+        day='0'+day;
+    }
+    console.log(day);
 
     const sql = SqlString.format("SELECT game1.score, game1.datetime, user.username"
         + " FROM game1, user"
         + " WHERE game1.user_id = user.user_id"
-        + " and DAY('game1.datetime') [?]"
-        + " ORDER BY game1.score"
-        + " LIMIT ?", [day, limit]);
+        + " and DATE(game1.datetime) = CURDATE()"
+        + " ORDER BY game1.score DESC"
+        + " LIMIT ?", [limit]);
 
     con.get().query(sql, function (err, result) {
         if (err) {
@@ -56,8 +61,8 @@ router.get('/scores/top/monthly', function (req, res) {
     const sql = SqlString.format("SELECT game1.score, game1.datetime, user.username"
         + " FROM game1, user"
         + " WHERE game1.user_id = user.user_id"
-        + " and MONTH('game1.datetime') [?]"
-        + " ORDER BY game1.score"
+        + " and MONTH(game1.datetime) = ?"
+        + " ORDER BY game1.score DESC"
         + " LIMIT ?", [month, limit]);
 
     con.get().query(sql, function (err, result) {
@@ -81,7 +86,7 @@ router.get('/scores/user', function (req, res) {
         + " FROM game1, user"
         + " WHERE game1.user_id = user.user_id"
         + " and user.user_id = ?"
-        + " ORDER BY game1.score"
+        + " ORDER BY game1.score DESC"
         + " LIMIT ?", [userID, limit]);
 
     con.get().query(sql, function (err, result) {

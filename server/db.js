@@ -10,8 +10,8 @@ var con = mysql.createConnection({
     */
 
     host: "localhost",
-    user: "root",
-    password: "t4pROOT",
+    user: "jetrosa",
+    password: "jetrosa",
     database: "selainpeli"
 });
 

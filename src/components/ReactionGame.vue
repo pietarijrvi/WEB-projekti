@@ -1,10 +1,27 @@
 <template>
-    <div id="reactionZone" v-on:mousedown="clickGame" v-bind:style="{backgroundColor: color}">
-        <div id="timer">
-            <span v-if="showTimer" class="millis">{{milliseconds + 'ms'}}</span>
-            <span v-else class="millis">{{message}}</span>
-            <span id="msg2">{{msg2}}</span>
-            <span id="average">{{average}}</span>
+    <div id="gamePage">
+        <div id="reactionZone" v-on:mousedown="clickGame" v-bind:style="{backgroundColor: color}">
+            <div id="timer">
+                <span v-if="showTimer" class="millis">{{milliseconds + 'ms'}}</span>
+                <span v-else class="millis">{{message}}</span>
+                <span id="msg2">{{msg2}}</span>
+                <span id="average">{{average}}</span>
+            </div>
+        </div>
+        <div id="scores">
+            <b-card title="Score Board" no-body>
+                <b-card-header header-tag="nav">
+                    <b-nav card-header tabs>
+                        <b-nav-item v-bind:active="board === 'daily'" v-on:click="board = 'daily'">Daily best</b-nav-item>
+                        <b-nav-item v-bind:active="board === 'alltime'" v-on:click="board = 'alltime'">All time best</b-nav-item>
+                    </b-nav>
+                </b-card-header>
+
+                <b-card-body class="text-center">
+                    <b-table v-if="board === 'daily'" striped hover :items="dailyScores" :fields="reactionFields"></b-table>
+                    <b-table v-if="board === 'alltime'" striped hover :items="alltimeScores" :fields="reactionFields"></b-table>
+                </b-card-body>
+            </b-card>
         </div>
     </div>
 </template>
@@ -25,10 +42,55 @@
                 color: '#2b87d1',
                 timer: null,
                 currentTime: null,
-                startTime: null
+                startTime: null,
+
+                dailyScores: [],
+                alltimeScores: [],
+                reactionFields: ['rank','score', 'username', 'date'],
+                board: 'daily'
             }
         },
+        created() {
+            this.getDailyScores();
+            this.getAlltimeScores();
+        },
         methods: {
+            async getDailyScores() {
+                const t = this;
+                try {
+                    const response = await fetch('http://localhost:8081/api/game_reaction/scores/top/daily');
+                    await response.json().then( function(result) {
+                        let rank = 0;
+                        result.forEach( function(item) {
+                            rank++;
+                            let date = new Date(item.datetime);
+                            item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                            item.rank = rank;
+                            t.dailyScores = result;
+                        });
+                    });
+                } catch (e) {
+                    throw e;
+                }
+            },
+            async getAlltimeScores() {
+                const t = this;
+                try {
+                    const response = await fetch('http://localhost:8081/api/game_reaction/scores/top/alltime');
+                    await response.json().then( function(result) {
+                        let rank = 0;
+                        result.forEach( function(item) {
+                            rank++;
+                            let date = new Date(item.datetime);
+                            item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                            item.rank = rank;
+                            t.alltimeScores = result;
+                        });
+                    });
+                } catch (e) {
+                    throw e;
+                }
+            },
             waitForStart() {
                 this.msg2 = null;
                 this.showTimer = false; // not showing timer
@@ -62,20 +124,20 @@
                 return this.milliseconds;
             },
 
-            getAverage(){
+            getAverage() {
                 let sum = this.scores.reduce((previous, current) => current += previous);
                 this.average = 'AVG: ' + Math.round(sum / this.scores.length);
             },
 
-            saveScore(){
+            saveScore() {
                 this.scores.push(this.milliseconds);
                 alert(this.scores);
                 return this.scores;
             },
             clickGame() {
-                if(this.color==="#2b87d1"){
-                   this.waitForStart();
-                }else if (this.color === "#ce2636"){
+                if (this.color === "#2b87d1") {
+                    this.waitForStart();
+                } else if (this.color === "#ce2636") {
                     this.message = 'Too soon!';
                     this.msg2 = 'Click to try again.';
                     this.stopTimer();
@@ -91,15 +153,15 @@
                 }
             },
         },
-        computed: {
-        }
+        computed: {}
     }
 </script>
 
 <style>
-    body{
+    body {
         background: whitesmoke;
     }
+
     #reactionZone {
         width: 100%;
         height: 35em;
@@ -118,11 +180,11 @@
         display: inline-block;
     }
 
-    #msg2{
+    #msg2 {
         font-size: 30px;
     }
 
-    #average{
+    #average {
         font-size: 20px;
         margin-top: 1em;
     }
