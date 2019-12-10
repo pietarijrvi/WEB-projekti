@@ -47,7 +47,7 @@
           this.disableArea = true;
           this.results = Math.round(this.count/this.seconds * 100) / 100 + " clicks per second";
 
-          this.sendData();
+          this.sendData(this.seconds, this.count);
 
           this.count = 0;
           this.running = false;
@@ -60,8 +60,17 @@
           this.results = "";
           this.showReset = false;
         },
-        sendData() {
-          // send count and seconds to database
+        async sendData(time, clicks) {
+          const myObj = {'time': time, "clicks": clicks, 'userID': 1};
+          try {
+            await fetch('http://localhost:8081/api/game_speedclick/scores', {
+              method: 'POST',
+              body: JSON.stringify(myObj),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' }
+            });
+          } catch (e) {
+            throw e;
+          }
         }
       },
       created() {
