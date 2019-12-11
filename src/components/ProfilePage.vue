@@ -53,7 +53,7 @@ npm<template>
                   }
 
                   let date = new Date(item.datetime);
-                  item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                  item.date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                 });
 
                 if (game === 'speedclick') {
@@ -75,5 +75,9 @@ npm<template>
 </script>
 
 <style scoped>
-
+    #profile {
+        font-size: 20px;
+        font-weight: 600;
+        padding: 1rem;
+    }
 </style>

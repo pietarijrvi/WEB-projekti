@@ -71,6 +71,7 @@
           this.sendData(this.seconds, this.count);
 
           this.count = 0;
+          this.getScores(this.seconds);
           this.running = false;
 
           this.showReset = true;
@@ -103,7 +104,7 @@
                   item.clicksPerSecond = Math.round(item.clicks / item.time * 100) / 100;
 
                   let date = new Date(item.datetime);
-                  item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                  item.date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                 });
 
                 t.alltimeScores = result;
@@ -117,7 +118,7 @@
               item.clicksPerSecond = Math.round(item.clicks / item.time * 100) / 100;
 
               let date = new Date(item.datetime);
-              item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+              item.date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
             });
 
             t.dailyScores = result;
