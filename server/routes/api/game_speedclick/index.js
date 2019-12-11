@@ -28,8 +28,12 @@ router.get('/scores/top/alltime', function (req, res) {
 });
 
 router.get('/scores/top/daily', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
 
+    const q = url.parse(req.url, true).query;
+    const time=q.time;
     const limit=10;
+
     const d = new Date();
     let day = d.getDate();
     if(day<10)
@@ -86,6 +90,7 @@ router.get('/scores/top/monthly', function (req, res) {
 router.get('/scores/user', function (req, res) {
 
     const q = url.parse(req.url, true).query;
+    const time=q.time;
     const userID=q.userID;
     const limit=5;
 
@@ -93,8 +98,9 @@ router.get('/scores/user', function (req, res) {
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
         + " and user.user_id = ?"
+        + " and game2.time = ?"
         + " ORDER BY game2.clicks DESC"
-        + " LIMIT ?", [userID, limit]);
+        + " LIMIT ?", [userID, time, limit]);
 
     con.get().query(sql, function (err, result) {
         if (err) {
