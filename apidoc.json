@@ -1,0 +1,7 @@
+{
+  "name": "Selainpeli",
+  "version": "0.1.0",
+  "description": "score api",
+  "title": "Selainpeli score api",
+  "url" : "localhost:8081/api/"
+}
