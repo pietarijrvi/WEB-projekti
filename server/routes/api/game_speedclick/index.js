@@ -45,7 +45,7 @@ router.get('/scores/top/daily', function (req, res) {
     const sql = SqlString.format("SELECT game2.time, game2.clicks, game2.datetime, user.username"
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
-        + " and DATE(game2.datetime) = = CURDATE()"
+        + " and DATE(game2.datetime) = CURDATE()"
         + " and game2.time = ?"
         + " ORDER BY game2.clicks DESC"
         + " LIMIT ?", [day, time, limit]);
