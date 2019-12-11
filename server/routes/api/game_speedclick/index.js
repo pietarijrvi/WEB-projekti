@@ -84,7 +84,6 @@ router.get('/scores/user', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
 
     const q = url.parse(req.url, true).query;
-    const time=q.time;
     const userID=q.userID;
     const limit=5;
 
@@ -92,8 +91,7 @@ router.get('/scores/user', function (req, res) {
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
         + " and user.user_id = ?"
-        + " and game2.time = ?"
-        + " ORDER BY game2.clicks DESC"
+        + " ORDER BY game2.clicks/game2.time DESC"
         + " LIMIT ?", [userID, time, limit]);
 
     con.get().query(sql, function (err, result) {
