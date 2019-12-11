@@ -2,7 +2,7 @@
     <div v-if="!['/login'].includes(this.$route.path)">
         <b-navbar toggleable="lg" type="light" variant="light">
 
-            <b-navbar-brand to="/">Project</b-navbar-brand>
+            <b-navbar-brand to="/"><img id="logo" src="https://www.svgrepo.com/show/36709/programming-code-signs.svg" class="d-inline-block align-top" alt="logo"></b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -36,5 +36,9 @@
 </script>
 
 <style scoped>
-
+#logo{
+    margin:0;
+    width: 35px;
+    height: 35px;
+}
 </style>

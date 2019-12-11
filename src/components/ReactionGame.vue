@@ -5,9 +5,10 @@
                 <span v-if="showTimer" class="millis">{{milliseconds + 'ms'}}</span>
                 <span v-else class="millis">{{message}}</span>
                 <span id="msg2">{{msg2}}</span>
-                <span id="average">{{average}}</span>
+                <span v-if="showTimer" id="average">Average: {{average}}</span>
             </div>
         </div>
+        <b-progress :value="this.times" :max=5 height="2.5em" variant="info" striped :animated="true"></b-progress>
         <div id="scores">
             <b-card title="Score Board" no-body>
                 <b-card-header header-tag="nav">
@@ -31,6 +32,7 @@
         name: "ReactionGame",
         data() {
             return {
+                times: 0,
                 average: null,
                 milliseconds: 0,
                 scores: [],
@@ -46,7 +48,7 @@
 
                 dailyScores: [],
                 alltimeScores: [],
-                reactionFields: ['rank','score', 'username', 'date'],
+                reactionFields: ['rank', 'score', 'username', 'date'],
                 board: 'daily'
             }
         },
@@ -59,9 +61,9 @@
                 const t = this;
                 try {
                     const response = await fetch('http://localhost:8081/api/game_reaction/scores/top/daily');
-                    await response.json().then( function(result) {
+                    await response.json().then(function (result) {
                         let rank = 0;
-                        result.forEach( function(item) {
+                        result.forEach(function (item) {
                             rank++;
                             let date = new Date(item.datetime);
                             item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
@@ -77,9 +79,9 @@
                 const t = this;
                 try {
                     const response = await fetch('http://localhost:8081/api/game_reaction/scores/top/alltime');
-                    await response.json().then( function(result) {
+                    await response.json().then(function (result) {
                         let rank = 0;
-                        result.forEach( function(item) {
+                        result.forEach(function (item) {
                             rank++;
                             let date = new Date(item.datetime);
                             item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
@@ -92,6 +94,9 @@
                 }
             },
             waitForStart() {
+                if (this.times === 5) {
+                    this.times = 0;
+                }
                 this.msg2 = null;
                 this.showTimer = false; // not showing timer
                 this.message = 'Wait for green';
@@ -126,13 +131,18 @@
 
             getAverage() {
                 let sum = this.scores.reduce((previous, current) => current += previous);
-                this.average = 'AVG: ' + Math.round(sum / this.scores.length);
+                this.average = Math.round(sum / this.scores.length);
             },
 
             saveScore() {
                 this.scores.push(this.milliseconds);
-                alert(this.scores);
                 return this.scores;
+            },
+            endGame() {
+                this.color = "#2b87d1";
+                this.msg2 = "Good job! You can keep going, or check your score in the profile page.";
+                this.showTimer = true;
+                this.scores = [];
             },
             clickGame() {
                 if (this.color === "#2b87d1") {
@@ -150,10 +160,27 @@
                     this.getReactionTime();
                     this.saveScore();
                     this.getAverage();
+                    this.times++;
+                    if (this.times === 5) {
+                        //send average score to database
+                        this.postScore();
+                        this.endGame();
+                    }
+                }
+            },
+            async postScore() {
+                const myObj = {"score": this.average, "userID": 1};
+                try {
+                    await fetch('http://localhost:8081/api/game_reaction/scores', {
+                        method: 'POST',
+                        body: JSON.stringify(myObj),
+                        headers: {'Content-type': 'application/json; charset=UTF-8'},
+                    });
+                } catch (error) {
+                    throw error;
                 }
             },
         },
-        computed: {}
     }
 </script>
 
@@ -168,9 +195,9 @@
     }
 
     #timer {
+        align-items: center;
         display: inline-flex;
         flex-direction: column;
-        text-align: center;
         color: white;
         font-size: 6em;
     }

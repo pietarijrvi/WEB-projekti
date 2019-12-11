@@ -56,8 +56,8 @@
         name: "Login",
         methods: {
             toggleModal(){
-                this.$root.$emit('bv::toggle::modal', 'modal-1', '#btnToggle')
-                this.$root.$emit('bv::toggle::modal', 'modal-2', '#btnToggle')
+                this.$root.$emit('bv::toggle::modal', 'modal-1', '#btnToggle');
+                this.$root.$emit('bv::toggle::modal', 'modal-2', '#btnToggle');
             }
         }
     }

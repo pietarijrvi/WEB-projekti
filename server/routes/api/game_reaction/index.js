@@ -11,7 +11,7 @@ router.get('/scores/top/alltime', function (req, res) {
     const sql = SqlString.format("SELECT game1.score, game1.datetime, user.username"
         + " FROM game1, user"
         + " WHERE game1.user_id = user.user_id"
-        + " ORDER BY game1.score DESC"
+        + " ORDER BY game1.score"
         + " LIMIT ?", [limit]);
 
     con.get().query(sql, function (err, result) {
@@ -39,7 +39,7 @@ router.get('/scores/top/daily', function (req, res) {
         + " FROM game1, user"
         + " WHERE game1.user_id = user.user_id"
         + " and DATE(game1.datetime) = CURDATE()"
-        + " ORDER BY game1.score DESC"
+        + " ORDER BY game1.score"
         + " LIMIT ?", [limit]);
 
     con.get().query(sql, function (err, result) {
@@ -62,7 +62,7 @@ router.get('/scores/top/monthly', function (req, res) {
         + " FROM game1, user"
         + " WHERE game1.user_id = user.user_id"
         + " and MONTH(game1.datetime) = ?"
-        + " ORDER BY game1.score DESC"
+        + " ORDER BY game1.score"
         + " LIMIT ?", [month, limit]);
 
     con.get().query(sql, function (err, result) {
@@ -86,7 +86,7 @@ router.get('/scores/user', function (req, res) {
         + " FROM game1, user"
         + " WHERE game1.user_id = user.user_id"
         + " and user.user_id = ?"
-        + " ORDER BY game1.score DESC"
+        + " ORDER BY game1.score"
         + " LIMIT ?", [userID, limit]);
 
     con.get().query(sql, function (err, result) {
@@ -100,6 +100,7 @@ router.get('/scores/user', function (req, res) {
 });
 
 router.post('/scores/', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
     console.log("Receiving score - POST");
     const rb = req.body;
     const today = new Date();
