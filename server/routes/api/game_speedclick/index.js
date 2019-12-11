@@ -85,7 +85,7 @@ router.get('/scores/user', function (req, res) {
 
     const q = url.parse(req.url, true).query;
     const userID=q.userID;
-    const limit=5;
+    const limit=10;
 
     const sql = SqlString.format("SELECT game2.time, game2.clicks, game2.datetime, user.username"
         + " FROM game2, user"
