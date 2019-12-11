@@ -3,6 +3,15 @@ var SqlString = require('sqlstring');
 var url = require('url');
 var con = require('../../../db.js');
 
+/**
+ * @api {get} /scores/top/alltime Request all time best scores
+ * @apiGroup Speedclick game
+ *
+ * @apiSuccess {Number} time gameplay time
+ * @apiSuccess {Number} clicks amount of clicks
+ * @apiSuccess {Datetime} datetime  datetime of the score submit.
+ * @apiSuccess {String} username  Username.
+ */
 router.get('/scores/top/alltime', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
 
@@ -27,6 +36,15 @@ router.get('/scores/top/alltime', function (req, res) {
     });
 });
 
+/**
+ * @api {get} scores/top/daily Request current day best scores
+ * @apiGroup Speedclick game
+ *
+ * @apiSuccess {Number} time gameplay time
+ * @apiSuccess {Number} clicks amount of clicks
+ * @apiSuccess {Datetime} datetime  datetime of the score submit.
+ * @apiSuccess {String} username  Username.
+ */
 router.get('/scores/top/daily', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
 
@@ -52,6 +70,15 @@ router.get('/scores/top/daily', function (req, res) {
     });
 });
 
+/**
+ * @api {get} scores/top/monthly Request monthly best scores
+ * @apiGroup Speedclick game
+ *
+ * @apiSuccess {Number} time gameplay time
+ * @apiSuccess {Number} clicks amount of clicks
+ * @apiSuccess {Datetime} datetime  datetime of the score submit.
+ * @apiSuccess {String} username  Username.
+ */
 router.get('/scores/top/monthly', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
 
@@ -79,7 +106,17 @@ router.get('/scores/top/monthly', function (req, res) {
     });
 });
 
-
+/**
+ * @api {get} scores/user Request best scores of the user
+ * @apiGroup Speedclick game
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {Number} time gameplay time
+ * @apiSuccess {Number} clicks amount of clicks
+ * @apiSuccess {Datetime} datetime  datetime of the score submit.
+ * @apiSuccess {String} username  Username.
+ */
 router.get('/scores/user', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
 
@@ -104,6 +141,16 @@ router.get('/scores/user', function (req, res) {
     });
 });
 
+/**
+ * @api {post} scores/ Post score result
+ * @apiGroup Speedclick game
+ *
+ * @apiParam {Number} time gameplay time
+ * @apiParam {Number} clicks amount of clicks
+ * @apiParam {Number} userID Users unique ID.
+ *
+ * @apiSuccess {String} Success message (score added).
+ */
 router.post('/scores/', function (req, res) {
     console.log("Receiving score - POST");
     const rb = req.body;
