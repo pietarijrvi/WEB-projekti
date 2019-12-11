@@ -54,6 +54,7 @@
         },
         /**
          * Gets called when you load the reaction game page
+         * gets all scores from the database and puts them in the scoreboards
          */
         created() {
             this.getDailyScores();
@@ -73,7 +74,7 @@
                         result.forEach(function (item) {
                             rank++;
                             let date = new Date(item.datetime);
-                            item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                            item.date = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
                             item.rank = rank;
                             t.dailyScores = result;
                         });
