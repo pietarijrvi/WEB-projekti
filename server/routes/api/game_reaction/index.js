@@ -2,6 +2,7 @@ var router = require('express').Router();
 var SqlString = require('sqlstring');
 var url = require('url');
 var con = require('../../../db.js');
+const { check, validationResult } = require('express-validator');
 
 /**
  * @api {get} /scores/top/alltime Request all time best scores
@@ -141,7 +142,17 @@ router.get('/scores/user', function (req, res) {
  *
  * @apiSuccess {String} Success message (score added).
  */
-router.post('/scores/', function (req, res) {
+router.post('/scores/', [
+    // score must be an int
+    check('score').isInt(),
+    // userID must be an int
+    check('userID').isInt()
+],function (req, res) {
+    // Finds the validation errors in this request and wraps them in an object with handy functions
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     res.header("Access-Control-Allow-Origin", "*");
     console.log("Receiving score - POST");
     const rb = req.body;
