@@ -6,6 +6,21 @@
         <button id="clickArea" :disabled="disableArea" v-on:click="click">{{ btnText }}</button>
         <div id="results">{{ results }}</div>
         <button v-on:click="reset" class="speed-button" v-if="showReset">reset</button>
+        <div id="scores">
+            <b-card title="Score Board" no-body>
+                <b-card-header header-tag="nav">
+                    <b-nav card-header tabs>
+                        <b-nav-item v-bind:active="board === 'daily'" v-on:click="board = 'daily'">Daily best</b-nav-item>
+                        <b-nav-item v-bind:active="board === 'alltime'" v-on:click="board = 'alltime'">All time best</b-nav-item>
+                    </b-nav>
+                </b-card-header>
+
+                <b-card-body class="text-center">
+                    <b-table v-if="board === 'daily'" striped hover :items="dailyScores" :fields="speedFields"></b-table>
+                    <b-table v-if="board === 'alltime'" striped hover :items="alltimeScores" :fields="speedFields"></b-table>
+                </b-card-body>
+            </b-card>
+        </div>
     </div>
 </template>
 
@@ -23,24 +38,30 @@
           results: "",
           showReset: false,
           gameTimes: [5, 10, 30],
-          selectedTime: 0
+          selectedTime: 0,
+
+          board: 'daily',
+          dailyScores: [],
+          alltimeScores: [],
+          speedFields: ['clicksPerSecond', 'time', 'clicks', 'username', 'date']
         }
       },
       methods: {
         click() {
           if (this.count === 0) {
             setTimeout(this.end, 1000*this.seconds);
-            this.running = true
+            this.running = true;
           }
           this.count++;
           if (this.count !== 0) {
-            this.btnText = this.count
+            this.btnText = this.count;
           }
         },
         setTime(time) {
           if (!this.running) {
             this.selectedTime = time;
             this.seconds = time;
+            this.getScores(time);
           }
         },
         end() {
@@ -61,7 +82,7 @@
           this.showReset = false;
         },
         async sendData(time, clicks) {
-          const myObj = {'time': time, "clicks": clicks, 'userID': 1};
+          const myObj = {'time': time, "clicks": clicks, 'userID': this.getUserID()};
           try {
             await fetch('http://localhost:8081/api/game_speedclick/scores', {
               method: 'POST',
@@ -71,6 +92,39 @@
           } catch (e) {
             throw e;
           }
+        },
+        async getScores(time) {
+          const t = this;
+          const alltimeResponse = await fetch('http://localhost:8081/api/game_speedclick/scores/top/alltime?time=' + time);
+          await alltimeResponse.json().then( function(result) {
+
+                result.forEach( function(item) {
+
+                  item.clicksPerSecond = Math.round(item.clicks / item.time * 100) / 100;
+
+                  let date = new Date(item.datetime);
+                  item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                });
+
+                t.alltimeScores = result;
+          });
+
+          const dailyResponse = await fetch('http://localhost:8081/api/game_speedclick/scores/top/daily?time=' + time);
+          await dailyResponse.json().then( function(result) {
+
+            result.forEach( function(item) {
+
+              item.clicksPerSecond = Math.round(item.clicks / item.time * 100) / 100;
+
+              let date = new Date(item.datetime);
+              item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+            });
+
+            t.dailyScores = result;
+          });
+        },
+        getUserID() {
+          return 1;
         }
       },
       created() {
@@ -96,8 +150,9 @@
         color: white;
         border: 0;
         border-radius: 1em;
-        width:6em;
+        width: 6em;
         height: 2em;
+        margin-bottom: 1em;
     }
 
     .speed-button:hover {
