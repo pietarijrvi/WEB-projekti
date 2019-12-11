@@ -36,14 +36,20 @@ npm<template>
         created() {
             //calls info from the database
             this.username = "guest";
-            this.getScores('speedclick');
-            this.getScores('reaction')
+            this.getScores('speedclick', this.getUserID());
+            this.getScores('reaction', this.getUserID())
         },
         methods: {
-          async getScores(game) {
+          /**
+           * Fetches the scores of the given user in the given game and puts them into the score board
+           * @param game the game scores that are fetched
+           * @param userID the ID of the user that should be fetched
+           * @returns {Promise<void>}
+           */
+          async getScores(game, userID) {
             const t = this;
             try {
-              const response = await fetch('http://localhost:8081/api/game_' + game + '/scores/user?userID=1');
+              const response = await fetch('http://localhost:8081/api/game_' + game + '/scores/user?userID=' + userID);
               await response.json().then( function(result) {
 
                 result.forEach( function(item) {
@@ -67,6 +73,13 @@ npm<template>
             } catch (e) {
               throw e;
             }
+          },
+          /**
+           * returns the ID of the logged in user [PLACEHOLDER]
+           * @returns {number}
+           */
+          getUserID() {
+            return 1;
           }
         }
     };

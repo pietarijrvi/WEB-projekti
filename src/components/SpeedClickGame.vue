@@ -1,6 +1,7 @@
 <template>
     <div id="speed-app">
         <div id="timeDiv">
+            <!-- creates a button automatically for every value in the gameTimes array -->
             <button v-for="time in gameTimes" v-bind:key="time.id" v-bind:class="{ selected: selectedTime === time }" v-on:click="setTime(time)">{{ time }}s</button>
         </div>
         <button id="clickArea" :disabled="disableArea" v-on:click="click">{{ btnText }}</button>
@@ -47,6 +48,10 @@
         }
       },
       methods: {
+        /**
+         * counts the times this has been called
+         * first time this is called a timeout is set for the selected amount of time
+         */
         click() {
           if (this.count === 0) {
             setTimeout(this.end, 1000*this.seconds);
@@ -57,6 +62,10 @@
             this.btnText = this.count;
           }
         },
+        /**
+         * Sets the game's time to the given time
+         * @param time
+         */
         setTime(time) {
           if (!this.running) {
             this.selectedTime = time;
@@ -64,11 +73,17 @@
             this.getScores(time);
           }
         },
+        /**
+         * Ends the game,
+         * disables the the clicking area, sends data to the database,
+         * updates the scoreboard with the new scores,
+         * brings up the reset button and game results
+         */
         end() {
           this.disableArea = true;
           this.results = Math.round(this.count/this.seconds * 100) / 100 + " clicks per second";
 
-          this.sendData(this.seconds, this.count);
+          this.sendData(this.seconds, this.count, this.getUserID());
 
           this.count = 0;
           this.getScores(this.seconds);
@@ -76,14 +91,23 @@
 
           this.showReset = true;
         },
+        /**
+         * Resets the game to the start state so the game can be played again
+         */
         reset() {
           this.btnText = this.defaultText;
           this.disableArea = false;
           this.results = "";
           this.showReset = false;
         },
-        async sendData(time, clicks) {
-          const myObj = {'time': time, "clicks": clicks, 'userID': this.getUserID()};
+        /**
+         * Sends the given parameters to the database
+         * @param time the time category saved to the database
+         * @param clicks amount of clicks sent to the database
+         * @param userID the ID of the user that the scores will be connected to
+         */
+        async sendData(time, clicks, userID) {
+          const myObj = {'time': time, "clicks": clicks, 'userID': userID};
           try {
             await fetch('http://localhost:8081/api/game_speedclick/scores', {
               method: 'POST',
@@ -94,6 +118,10 @@
             throw e;
           }
         },
+        /**
+         * Fetches the scores of the given time and puts them into the score board
+         * @param time the time category for which the scores are from
+         */
         async getScores(time) {
           const t = this;
           const alltimeResponse = await fetch('http://localhost:8081/api/game_speedclick/scores/top/alltime?time=' + time);
@@ -124,6 +152,10 @@
             t.dailyScores = result;
           });
         },
+        /**
+         * returns the ID of the logged in user [PLACEHOLDER]
+         * @returns {number}
+         */
         getUserID() {
           return 1;
         }
