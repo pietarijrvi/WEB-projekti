@@ -92,7 +92,7 @@ router.get('/scores/user', function (req, res) {
         + " WHERE game2.user_id = user.user_id"
         + " and user.user_id = ?"
         + " ORDER BY game2.clicks/game2.time DESC"
-        + " LIMIT ?", [userID, time, limit]);
+        + " LIMIT ?", [userID, limit]);
 
     con.get().query(sql, function (err, result) {
         if (err) {
