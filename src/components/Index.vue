@@ -1,5 +1,5 @@
 <template>
-    <div id="cards">
+    <b-card-group deck id="cards">
         <b-card
                 img-height="200px"
                 text-variant="black"
@@ -34,7 +34,7 @@
 
             <b-link to="/speedgame"><b-button variant="primary">Play</b-button></b-link>
         </b-card>
-    </div>
+    </b-card-group>
 </template>
 
 <script>
@@ -48,6 +48,18 @@
         display: inline-flex;
         margin-top: 5em;
     }
+
+    @media screen and (max-width: 768px) {
+        #cards{
+            flex-direction: column;
+            margin: 2em;
+        }
+
+        #speedCard{
+            margin-top: 2em;
+        }
+    }
+
     img{
         margin-top: 1em;
     }

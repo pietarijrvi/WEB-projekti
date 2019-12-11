@@ -52,11 +52,18 @@
                 board: 'daily'
             }
         },
+        /**
+         * Gets called when you load the reaction game page
+         */
         created() {
             this.getDailyScores();
             this.getAlltimeScores();
         },
         methods: {
+            /**
+             * Gets best scores of the day from the database
+             * @returns {Promise<void>}
+             */
             async getDailyScores() {
                 const t = this;
                 try {
@@ -75,6 +82,10 @@
                     throw e;
                 }
             },
+            /**
+             * Gets the top scores of all time from the database
+             * @returns {Promise<void>}
+             */
             async getAlltimeScores() {
                 const t = this;
                 try {
@@ -84,7 +95,7 @@
                         result.forEach(function (item) {
                             rank++;
                             let date = new Date(item.datetime);
-                            item.date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+                            item.date = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
                             item.rank = rank;
                             t.alltimeScores = result;
                         });
@@ -93,6 +104,9 @@
                     throw e;
                 }
             },
+            /**
+             * Gets called after the player starts the game. Starts a timeout for a random time between 1-5 seconds.
+             */
             waitForStart() {
                 if (this.times === 5) {
                     this.times = 0;
@@ -102,11 +116,14 @@
                 this.message = 'Wait for green';
                 this.wait = true;
                 this.color = '#ce2636'; //box is red
-                const max = 5000; // between max and min time (milliseconds)
+                const max = 5000;
                 const min = 1000;
                 let random = Math.random() * (max - min) + min; // randomize time
                 this.timer = setTimeout(this.startTimer, random); // code not running until random time
             },
+            /**
+             * Starts the timer which runs until the player clicks the green area.
+             */
             startTimer() {
                 this.message = 'Click!';
                 this.wait = false;
@@ -115,35 +132,57 @@
                 this.$data.currentTime = Date.now();
                 this.timer = setInterval(() => this.count(), 1); // timer goes up in milliseconds
             },
+            /**
+             * Stops the timer and clears the timeout for the next attempt.
+             */
             stopTimer() {
                 clearTimeout(this.timer);
                 clearInterval(this.timer);
                 this.color = "#2b87d1";
             },
+            /**
+             * Counts up the milliseconds after the timer has started.
+             */
             count: function () {
                 this.currentTime = Date.now();
             },
-
+            /**
+             * Returns the reaction time in milliseconds.
+             */
             getReactionTime() {
                 this.milliseconds = this.currentTime - this.$data.startTime;
                 return this.milliseconds;
             },
 
+            /**
+             * Calculates the average score of reaction times.
+             */
             getAverage() {
                 let sum = this.scores.reduce((previous, current) => current += previous);
                 this.average = Math.round(sum / this.scores.length);
             },
 
+            /**
+             * Saves the scores in a local array
+             * @returns {[]}
+             */
             saveScore() {
                 this.scores.push(this.milliseconds);
                 return this.scores;
             },
+            /**
+             * Gets called after the player clicks the green area for the fifth time.
+             * Resets the local score array for the next set of attempts.
+             */
             endGame() {
                 this.color = "#2b87d1";
                 this.msg2 = "Good job! You can keep going, or check your score in the profile page.";
                 this.showTimer = true;
                 this.scores = [];
             },
+            /**
+             * Handles the player's clicks in different game situations.
+             */
             clickGame() {
                 if (this.color === "#2b87d1") {
                     this.waitForStart();
@@ -168,6 +207,11 @@
                     }
                 }
             },
+            /**
+             * Posts player's average score to the database.
+             * Gets player's scores.
+             * @returns {Promise<void>}
+             */
             async postScore() {
                 const myObj = {"score": this.average, "userID": 1};
                 try {
@@ -179,6 +223,8 @@
                 } catch (error) {
                     throw error;
                 }
+                this.getDailyScores();
+                this.getAlltimeScores();
             },
         },
     }
