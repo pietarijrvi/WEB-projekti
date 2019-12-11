@@ -34,21 +34,13 @@ router.get('/scores/top/daily', function (req, res) {
     const time=q.time;
     const limit=10;
 
-    const d = new Date();
-    let day = d.getDate();
-    if(day<10)
-    {
-        day='0'+day;
-    }
-    console.log(day);
-
     const sql = SqlString.format("SELECT game2.time, game2.clicks, game2.datetime, user.username"
         + " FROM game2, user"
         + " WHERE game2.user_id = user.user_id"
         + " and DATE(game2.datetime) = CURDATE()"
         + " and game2.time = ?"
         + " ORDER BY game2.clicks DESC"
-        + " LIMIT ?", [day, time, limit]);
+        + " LIMIT ?", [time, limit]);
 
     con.get().query(sql, function (err, result) {
         if (err) {
@@ -61,6 +53,7 @@ router.get('/scores/top/daily', function (req, res) {
 });
 
 router.get('/scores/top/monthly', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
 
     const q = url.parse(req.url, true).query;
     const time=q.time;
@@ -88,6 +81,7 @@ router.get('/scores/top/monthly', function (req, res) {
 
 
 router.get('/scores/user', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
 
     const q = url.parse(req.url, true).query;
     const time=q.time;
