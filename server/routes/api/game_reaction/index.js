@@ -5,12 +5,25 @@ var con = require('../../../db.js');
 const { check, validationResult } = require('express-validator');
 
 /**
- * @api {get} /scores/top/alltime Request all time best scores
+ * @api {get} scores/top/alltime Request all time best scores, ascending order (best reaction time first)
  * @apiGroup Reaction game
  *
  * @apiSuccess {Number} score score
  * @apiSuccess {Datetime} datetime  datetime of the score submit.
  * @apiSuccess {String} username  Username.
+ *
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ *      {
+ *          "score": 789,
+ *          "datetime": "2019-12-11T13:53:17.000Z",
+ *          "username": "anon"
+ *      },
+ *      {
+ *          "score": 1112,
+ *          "datetime": "2019-12-10T22:34:45.000Z",
+ *          "username": "anon"
+ *      }
  */
 router.get('/scores/top/alltime', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -34,12 +47,20 @@ router.get('/scores/top/alltime', function (req, res) {
 });
 
 /**
- * @api {get} scores/top/daily Request current day best scores
+ * @api {get} scores/top/daily Request current day best scores, ascending order (best reaction time first)
  * @apiGroup Reaction game
  *
  * @apiSuccess {Int} score score
  * @apiSuccess {Datetime} datetime  datetime of the score submit.
  * @apiSuccess {String} username  Username.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *          "score": 1112,
+ *          "datetime": "2019-12-10T22:34:45.000Z",
+ *          "username": "anon"
+ *     }
  */
 router.get('/scores/top/daily', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -50,7 +71,6 @@ router.get('/scores/top/daily', function (req, res) {
     {
         day='0'+day;
     }
-    console.log(day);
 
     const sql = SqlString.format("SELECT game1.score, game1.datetime, user.username"
         + " FROM game1, user"
@@ -70,7 +90,7 @@ router.get('/scores/top/daily', function (req, res) {
 });
 
 /**
- * @api {get} scores/top/monthly Request monthly best scores
+ * @api {get} scores/top/monthly Request monthly best scores, ascending order (best reaction time first)
  * @apiGroup Reaction game
  *
  * @apiSuccess {Int} score score
@@ -101,7 +121,7 @@ router.get('/scores/top/monthly', function (req, res) {
 });
 
 /**
- * @api {get} scores/user Request best scores of the user
+ * @api {get} scores/user Request 10 best scores of the user, ascending order (best reaction time first)
  * @apiGroup Reaction game
  *
  * @apiParam {Number} id Users unique ID.
