@@ -47,7 +47,7 @@ router.get('/scores/top/alltime', function (req, res) {
 });
 
 /**
- * @api {get} scores/top/daily Request current day best scores, ascending order (best reaction time first)
+ * @api {get} game_reaction/scores/top/daily Request current day best scores, ascending order (best reaction time first)
  * @apiGroup Reaction game
  *
  * @apiSuccess {Int} score score
@@ -90,7 +90,7 @@ router.get('/scores/top/daily', function (req, res) {
 });
 
 /**
- * @api {get} scores/top/monthly Request monthly best scores, ascending order (best reaction time first)
+ * @api {get} game_reaction/scores/top/monthly Request monthly best scores, ascending order (best reaction time first)
  * @apiGroup Reaction game
  *
  * @apiSuccess {Int} score score
@@ -121,7 +121,7 @@ router.get('/scores/top/monthly', function (req, res) {
 });
 
 /**
- * @api {get} scores/user Request 10 best scores of the user, ascending order (best reaction time first)
+ * @api {get} game_reaction/scores/user Request 10 best scores of the user, ascending order (best reaction time first)
  * @apiGroup Reaction game
  *
  * @apiParam {Number} id Users unique ID.
@@ -154,7 +154,7 @@ router.get('/scores/user', function (req, res) {
 });
 
 /**
- * @api {post} scores/ Post score result
+ * @api {post} game_reaction/scores/ Post score result
  * @apiGroup Reaction game
  *
  * @apiParam {Number} score game score
