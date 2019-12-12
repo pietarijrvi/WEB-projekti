@@ -1,6 +1,50 @@
 [
   {
     "type": "get",
+    "url": "game_reaction/scores/top/alltime",
+    "title": "Request all time best scores, ascending order (best reaction time first)",
+    "group": "Reaction_game",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "score",
+            "description": "<p>score</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Datetime",
+            "optional": false,
+            "field": "datetime",
+            "description": "<p>datetime of the score submit.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "username",
+            "description": "<p>Username.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"score\": 789,\n    \"datetime\": \"2019-12-11T13:53:17.000Z\",\n    \"username\": \"anon\"\n},\n{\n    \"score\": 1112,\n    \"datetime\": \"2019-12-10T22:34:45.000Z\",\n    \"username\": \"anon\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "server/routes/api/game_reaction/index.js",
+    "groupTitle": "Reaction_game",
+    "name": "GetGame_reactionScoresTopAlltime"
+  },
+  {
+    "type": "get",
     "url": "game_reaction/scores/top/daily",
     "title": "Request current day best scores, ascending order (best reaction time first)",
     "group": "Reaction_game",
@@ -129,50 +173,6 @@
     "filename": "server/routes/api/game_reaction/index.js",
     "groupTitle": "Reaction_game",
     "name": "GetGame_reactionScoresUser"
-  },
-  {
-    "type": "get",
-    "url": "scores/top/alltime",
-    "title": "Request all time best scores, ascending order (best reaction time first)",
-    "group": "Reaction_game",
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "score",
-            "description": "<p>score</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Datetime",
-            "optional": false,
-            "field": "datetime",
-            "description": "<p>datetime of the score submit.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "username",
-            "description": "<p>Username.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n    \"score\": 789,\n    \"datetime\": \"2019-12-11T13:53:17.000Z\",\n    \"username\": \"anon\"\n},\n{\n    \"score\": 1112,\n    \"datetime\": \"2019-12-10T22:34:45.000Z\",\n    \"username\": \"anon\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "server/routes/api/game_reaction/index.js",
-    "groupTitle": "Reaction_game",
-    "name": "GetScoresTopAlltime"
   },
   {
     "type": "post",

@@ -5,7 +5,7 @@ var con = require('../../../db.js');
 const { check, validationResult } = require('express-validator');
 
 /**
- * @api {get} scores/top/alltime Request all time best scores, ascending order (best reaction time first)
+ * @api {get} game_reaction/scores/top/alltime Request all time best scores, ascending order (best reaction time first)
  * @apiGroup Reaction game
  *
  * @apiSuccess {Number} score score
