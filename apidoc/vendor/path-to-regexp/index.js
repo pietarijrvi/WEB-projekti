@@ -59,7 +59,7 @@ function flags (options) {
 }
 
 /**
- * Pull out keys from a regexp.
+ * Pull jsdoc keys from a regexp.
  *
  * @param  {RegExp} path
  * @param  {Array}  keys

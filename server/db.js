@@ -11,7 +11,7 @@ var con = mysql.createConnection({
 
     host: "localhost",
     user: "root",
-    password: "t4pROOT",
+    password: "12pallohallussa2",
     database: "selainpeli"
 });
 

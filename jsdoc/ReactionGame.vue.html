@@ -1,33 +1,61 @@
-<template>
-    <div id="gamePage">
-        <div id="reactionZone" v-on:mousedown="clickGame" v-bind:style="{backgroundColor: color}">
-            <div id="timer">
-                <span v-if="showTimer" class="millis">{{milliseconds + 'ms'}}</span>
-                <span v-else class="millis">{{message}}</span>
-                <span id="msg2">{{msg2}}</span>
-                <span v-if="showTimer" id="average">Average: {{average}}</span>
-            </div>
-        </div>
-        <b-progress :value="this.times" :max=5 height="2.5em" variant="info" striped :animated="true"></b-progress>
-        <div id="scores">
-            <b-card title="Score Board" no-body>
-                <b-card-header header-tag="nav">
-                    <b-nav card-header tabs>
-                        <b-nav-item v-bind:active="board === 'daily'" v-on:click="board = 'daily'">Daily best</b-nav-item>
-                        <b-nav-item v-bind:active="board === 'alltime'" v-on:click="board = 'alltime'">All time best</b-nav-item>
-                    </b-nav>
-                </b-card-header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ReactionGame.vue</title>
 
-                <b-card-body class="text-center">
-                    <b-table v-if="board === 'daily'" striped hover :items="dailyScores" :fields="reactionFields"></b-table>
-                    <b-table v-if="board === 'alltime'" striped hover :items="alltimeScores" :fields="reactionFields"></b-table>
-                </b-card-body>
-            </b-card>
-        </div>
-    </div>
-</template>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
 
-<script>
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ReactionGame.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+    &lt;div id="gamePage">
+        &lt;div id="reactionZone" v-on:mousedown="clickGame" v-bind:style="{backgroundColor: color}">
+            &lt;div id="timer">
+                &lt;span v-if="showTimer" class="millis">{{milliseconds + 'ms'}}&lt;/span>
+                &lt;span v-else class="millis">{{message}}&lt;/span>
+                &lt;span id="msg2">{{msg2}}&lt;/span>
+                &lt;span v-if="showTimer" id="average">Average: {{average}}&lt;/span>
+            &lt;/div>
+        &lt;/div>
+        &lt;b-progress :value="this.times" :max=5 height="2.5em" variant="info" striped :animated="true">&lt;/b-progress>
+        &lt;div id="scores">
+            &lt;b-card title="Score Board" no-body>
+                &lt;b-card-header header-tag="nav">
+                    &lt;b-nav card-header tabs>
+                        &lt;b-nav-item v-bind:active="board === 'daily'" v-on:click="board = 'daily'">Daily best&lt;/b-nav-item>
+                        &lt;b-nav-item v-bind:active="board === 'alltime'" v-on:click="board = 'alltime'">All time best&lt;/b-nav-item>
+                    &lt;/b-nav>
+                &lt;/b-card-header>
+
+                &lt;b-card-body class="text-center">
+                    &lt;b-table v-if="board === 'daily'" striped hover :items="dailyScores" :fields="reactionFields">&lt;/b-table>
+                    &lt;b-table v-if="board === 'alltime'" striped hover :items="alltimeScores" :fields="reactionFields">&lt;/b-table>
+                &lt;/b-card-body>
+            &lt;/b-card>
+        &lt;/div>
+    &lt;/div>
+&lt;/template>
+
+&lt;script>
     /**
      * @vue-data {Number} [times = 0] Goes up one after a round is over. Resets to 0 after 5.
      * @vue-data {Number} [average = null] - Average reaction speed
@@ -71,7 +99,7 @@
         methods: {
             /**
              * Gets best scores of the day from the database
-             * @returns {Promise<void>}
+             * @returns {Promise&lt;void>}
              */
             async getDailyScores() {
                 const t = this;
@@ -93,7 +121,7 @@
             },
             /**
              * Gets the top scores of all time from the database
-             * @returns {Promise<void>}
+             * @returns {Promise&lt;void>}
              */
             async getAlltimeScores() {
                 const t = this;
@@ -218,7 +246,7 @@
             /**
              * Posts player's average score to the database.
              * Gets player's scores.
-             * @returns {Promise<void>}
+             * @returns {Promise&lt;void>}
              */
             async postScore() {
                 const myObj = {"score": this.average, "userID": 1};
@@ -236,9 +264,9 @@
             },
         },
     }
-</script>
+&lt;/script>
 
-<style>
+&lt;style>
     body {
         background: whitesmoke;
     }
@@ -269,4 +297,26 @@
         font-size: 20px;
         margin-top: 1em;
     }
-</style>
+&lt;/style></code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ProfilePage.html">ProfilePage</a></li><li><a href="module-ReactionGame.html">ReactionGame</a></li><li><a href="module-SpeedClickGame.html">SpeedClickGame</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Thu Dec 12 2019 17:52:05 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
